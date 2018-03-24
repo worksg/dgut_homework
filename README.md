@@ -1,1 +1,3 @@
-# dgut_homework
+# my homework
+
+code by Sg
