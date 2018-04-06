@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Sg
+ * @author Administrator
  */
-@WebServlet(name = "AdminTemperatureServlet", urlPatterns = {"/adminTemperature"})
-public class AdminTemperatureServlet extends HttpServlet {
+@WebServlet(name = "LoginSuccess", urlPatterns = {"/LoginSuccess"})
+public class LoginSuccess extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,13 +34,14 @@ public class AdminTemperatureServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String name = request.getParameter("userID");
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminTemperatureServlet</title>");            
+            out.println("<title>登录成功</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminTemperatureServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>欢迎！"+name+" 您已成功登录系统···</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,27 +59,7 @@ public class AdminTemperatureServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
-        PrintWriter out = response.getWriter();
-        
-        String Temperature = (String)getServletContext().getAttribute("Temperature");
-        
-        if(Temperature == null ) {
-            Temperature = (String)getInitParameter("Temperature");
-            getServletContext().setAttribute("Temperature",Temperature);
-            
-        }
-        out.println("<html><head><title>气温更新" + "</title></head>");
-        out.println("<boby><table border=\"0\"width=\"100%\"><tr>");
-        out.println("<td align=\"left\" valign=\"bottom\">");
-        out.println("<h1>当前气温</h1></td></tr></table>");
-        out.print("<form action=\"");
-        out.println(response.encodeURL("adminTemperature"));
-        out.println("\"method=\"post\">");
-        out.println("当前气温（摄氏度）");
-        out.println("<input type=\"text\" name=\"temperature\"" + "value=" + Temperature + ">");
-        out.println("<input type=\"Submit\" name=\"btn_submit\"" + "value=\"更新\">");
-        out.println("</form></boby><html>");
+        processRequest(request, response);
     }
 
     /**
@@ -92,15 +73,7 @@ public class AdminTemperatureServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
-        PrintWriter out = response.getWriter();
-        
-        String Temperature = request.getParameter("temperature");
-        getServletContext().setAttribute("Temperature",Temperature);
-        out.println("<html><head><title>气温更新" + "</title></head>");
-        out.println("<boby>");
-        out.println("当前气温:" + Temperature + "摄氏度");
-        out.println("</boby></html>");
+        processRequest(request, response);
     }
 
     /**
