@@ -7,19 +7,18 @@ package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "Main", urlPatterns = {"/Main"})
-public class Main extends HttpServlet {
+@WebServlet(name = "Counter", urlPatterns = {"/Counter"})
+public class Counter extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,29 +32,29 @@ public class Main extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println("In Servlet Main");
-        try{
-            Thread.sleep(1500);
-        }catch(InterruptedException ie){
-            System.out.println(ie.toString());
-        }
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String userID = request.getParameter("userID");
-            if(userID==null){
-                userID="";
-            }
-            String password = request.getParameter("password");
-            if(password==null){
-                password="";
-            }
-            if((userID.equals("guest") && password.equals("guest"))) {
-                RequestDispatcher dispathcher = request.getRequestDispatcher("LoginSuccess");
-                dispathcher.forward(request,response);
-            }else {
-                RequestDispatcher dispathcher = request.getRequestDispatcher("LoginFail");
-                dispathcher.forward(request, response);
-            }
+            HttpSession session = request.getSession();
+            
+            String history = (String)session.getServletContext().getAttribute("Counter");
+            if(history==null)
+                history="0";
+
+            String temp =(String)session.getServletContext().getAttribute("online");
+            if(temp==null)
+                temp="0";
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>计数器</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>当前访问人数:"+temp+"</h1>");
+            out.println("<h1>历史访问人数:"+history+"</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
