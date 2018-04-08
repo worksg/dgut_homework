@@ -3,28 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.servlet;
+package web_login;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "UploadServlet", urlPatterns = {"/UpLoad"})
-@MultipartConfig(location = "D:\\")
-public class UploadServlet extends HttpServlet {
-    private String fileNameExtractorRegex = "filename=\".+\"";
+@WebServlet(name = "download", urlPatterns = {"/download"})
+public class download extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,39 +34,34 @@ public class UploadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        response.setContentType("application/pdf");
+        File pdf = null;
+        byte[] buffer = new byte[1024*1024];
+        ServletOutputStream out = response.getOutputStream();
+        FileInputStream input = null;
+        try {
             /* TODO output your page here. You may use following sample code. */
             String path = this.getServletContext().getRealPath("/");
-            System.out.println(path);
-            out.write("服务器本地路径:"+path+"<br/>");
-            for (Part p : request.getParts()) {
-//                System.out.println(p.getHeader("content-type"));
-                if ( p.getHeader("content-type") != null ) {
-                    if(p.getContentType().contains("image")) {
-                        String fname = getFileName(p);
-                        p.write(path+fname);
-                        System.out.println(path);
-                        System.out.println(p.getContentType());
-                    }
-                }
+            pdf = new File(path+"/实验1 Servlet编程.pdf");
+            response.setContentLength((int)pdf.length());
+            input = new FileInputStream(pdf);
+            int readBytes = -1;
+            while((readBytes=input.read(buffer,0,1024*1024)) != -1) {
+                out.write(buffer,0,1024*1024);
+            }
+        }catch(IOException e) {
+            System.out.println("file not found");
+        }finally {
+            if(out!= null) {
+                out.close();
+            }
+            if (input != null) {
+                input.close();
             }
         }
     }
 
-    private String getFileName(Part part) {
-        String contentDecs = part.getHeader("content-disposition");
-        String fileName = null;
-        Pattern pattern = Pattern.compile(fileNameExtractorRegex);
-        Matcher matcher = pattern.matcher(contentDecs);
-        if (matcher.find()) {
-            fileName = matcher.group();
-            fileName = fileName.substring(10,fileName.length() - 1);
-        }
-        return fileName;
-    }
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
