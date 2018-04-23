@@ -1,28 +1,19 @@
 #include "HashSep.h"
-#include<stdlib.h>
-#include<stdio.h>
-#include<string.h>
-
-void
-Error(const char * string) {
-    printf("Error %s\n", string);
-}
-
-void
-FatalError(const char * string) {
-    printf("FatalError %s\n", string);
-}
+#include "Error.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 Index Hash(const char *Key, int TableSize) {
     unsigned int HashVal = 0;
-    const char * read = Key;
+//    const char * read = Key;
 
     while (*Key != '\0') {
         HashVal = (HashVal << 5) + *Key++;
     }
 
     unsigned int Index = HashVal % TableSize;
-    printf("Key:%s Index:%u\n", read, Index);
+    //    printf("Key:%s Index:%u\n", read, Index);
 
     return Index;
 }
@@ -90,6 +81,7 @@ void Insert(const ElementType Key, HashTable H, const char type[]) {
         NewCell = malloc(sizeof (struct ListNode));
         if (NewCell == NULL) {
             FatalError("Out of memory!!!");
+
         } else {
 
             if (strcmp(type, "phone") == 0) {
@@ -117,7 +109,7 @@ void Insert(const ElementType Key, HashTable H, const char type[]) {
 }
 
 void DestroyTable(HashTable H) {
-    Position P = NULL,tmp = NULL;
+    Position P = NULL, tmp = NULL;
     List L;
 
     for (int i = 0; i < H->TableSize; i++) {
@@ -128,16 +120,16 @@ void DestroyTable(HashTable H) {
             tmp = P;
             P = P->Next;
             free(tmp->Element);
-            
+
             tmp->Element = NULL;
             tmp->Next = NULL;
-            
+
             free(tmp);
         }
-        
+
         free(L);
         H->TheLists[i] = NULL;
     }
-    
+
     H->TheLists = NULL;
 }
