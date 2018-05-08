@@ -71,7 +71,7 @@ void node(char *p) {
             ++i;
             //            printf("station %s transmitting frame %d \n", p, ++i);
 
-            sleep(0.256); //transmitting time
+            sleep(trip_time); //transmitting time
 
 
             //            seq2 = get();
