@@ -4,7 +4,7 @@ import socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Prepare a server socket
 serverSocket.bind(('0.0.0.0', 6789))  # 将TCP欢迎套接字绑定到指定端口
-serverSocket.listen(10)  # 最大连接数为1
+serverSocket.listen(10)  # 最大连接数为10
 
 while True:
     # Establish the connection
@@ -31,16 +31,16 @@ while True:
         connectionSocket.close()
     except IOError:
         # Send response message for file not found
-        header = 'HTTP/1.1 404 NOT FOUND\nConnection: close\nContent-Type: text/html\n'
-        connectionSocket.send(header.encode())
-
+        header = 'HTTP/1.1 404 NOT FOUND\nConnection: close\n'
+        try:
+            connectionSocket.send(header.encode())
+        except Exception:
+            pass
         # Close client socket
         connectionSocket.close()
+    except Exception:
+        pass
 
 serverSocket.close()
 
-
-"""
-curl --noproxy 192.168.14.1 -i -X POST --data "hello_world.html" 192.168.14.1:6789
-"""
 
