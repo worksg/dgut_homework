@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head>
+        <title>Managed Bean生命周期范围</title>
+        <meta name="viewport" content="width=device-width"/>
+    </head>
+    <body>
+        <h:form><ui:debug/>
+            <h3>脑筋急转弯</h3>
+            <p>你答对了#{quizBean.score}题</p>
+            <p>#{quizBean.current.question}</p>
+            <p><h:inputText value="#{quizBean.answer}"/></p>
+            <p><h:commandButton value="提交"/></p>
+        </h:form>
+    </body>
+</html>

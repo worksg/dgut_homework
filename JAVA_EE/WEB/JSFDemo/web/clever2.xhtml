@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>CDI Bean生命周期范围</title>
+        <meta name="viewport" content="width=device-width"/>
+    </head>
+    <body>
+        <h:form>
+            <h3>脑筋急转弯</h3>
+            <p>你答对了#{quizBean2.score}题</p>
+            <p>#{quizBean2.current.question}</p>
+            <p><h:inputText value="#{quizBean2.answer}"/></p>
+            <p><h:commandButton value="提交"/></p>
+        </h:form>
+    </body>
+</html>
