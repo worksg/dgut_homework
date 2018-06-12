@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>登录页</title>
+	<style>
+.centred-form {
+	margin: 10% auto;
+}
+</style>
+</h:head>
+<h:body>
+	<h:form>
+
+		<h:panelGrid styleClass="centred-form">
+			<h3>用户登录</h3>
+			<h:outputText value="Username" />
+			<h:inputText id="username" value="#{userLogin.username}"></h:inputText>
+			<h:message for="username"></h:message>
+
+			<h:outputText value="Password" />
+			<h:inputSecret id="password" value="#{userLogin.password}"></h:inputSecret>
+			<h:message for="password"></h:message>
+		</h:panelGrid>
+		<h:commandButton action="#{userLogin.login}" value="Login"></h:commandButton>
+		<h:button outcome="register.xhtml" value="Registe"></h:button>
+	</h:form>
+	
+	<br/><b>#{userLogin.message}</b>
+</h:body>
+
+</html>
