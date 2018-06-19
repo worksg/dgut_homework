@@ -18,7 +18,10 @@
             Connection con = null;
             Statement st = null;
             ResultSet rs = null;
+            
+            
             if(userName.equals("")) {
+            	session.setAttribute("status","anonymous");
                 response.sendRedirect("login.jsp");
             }
             try{
@@ -32,8 +35,10 @@
                     String query2 ="select * from user where password='" + password + "'";
                     rs=st.executeQuery(query2);
                     if(rs.next()){
+                    	session.setAttribute("status","login");
                         response.sendRedirect("main/main.jsp");
                     }else{
+                    	session.setAttribute("status","anonymous");
                         response.sendRedirect("login.jsp");
                     }
                  }

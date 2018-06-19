@@ -1,7 +1,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%><%        request.setCharacterEncoding("UTF-8");
 response.setContentType("text/html;charset=UTF-8");
-response.setCharacterEncoding("UTF-8"); %>
+response.setCharacterEncoding("UTF-8"); 
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,7 +43,7 @@ response.setCharacterEncoding("UTF-8"); %>
             <tr/>
             <tr>
                 <td>
-                    <a href="http://localhost:8080/EIMS/login.jsp" target="_parent">退出系统</a>
+                    <a href="http://localhost:8080/EIMS/login.jsp?action=logout" target="_parent">退出系统</a>
                 </td>
             </tr>
         </table>
