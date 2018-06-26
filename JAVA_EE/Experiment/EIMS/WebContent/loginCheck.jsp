@@ -3,12 +3,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>数据处理页面</title>
-    </head>
-    <body>
-        <%
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>数据处理页面</title>
+</head>
+<body>
+	<%
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -20,7 +20,7 @@
             ResultSet rs = null;
             
             
-            if(userName.equals("")) {
+            if(userName == null || userName.equals("")) {
             	session.setAttribute("status","anonymous");
                 response.sendRedirect("login.jsp");
             }
@@ -45,10 +45,10 @@
               }catch(Exception e){
                   e.printStackTrace();
               }finally{
-                  rs.close();
-                  st.close();
-                  con.close();
+                  if(rs != null) rs.close();
+                  if(st != null) st.close();
+                  if(con != null) con.close();
              }
         %>
-    </body>
+</body>
 </html>

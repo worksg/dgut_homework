@@ -1,6 +1,7 @@
 
 <%@page import="java.sql.*"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%><%        request.setCharacterEncoding("UTF-8");
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%        request.setCharacterEncoding("UTF-8");
 response.setContentType("text/html;charset=UTF-8");
 response.setCharacterEncoding("UTF-8"); String login_status = (String)session.getAttribute("status");
 if (login_status == null || login_status.equals("anonymous")) {
@@ -11,12 +12,12 @@ if (login_status == null || login_status.equals("anonymous")) {
 }%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>处理合同添加数据</title>
-    </head>
-    <body>
-        <%
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>处理合同添加数据</title>
+</head>
+<body>
+	<%
             String staffName=request.getParameter("staffName");
             String staffSex=request.getParameter("staffSex");
             String staffAge=request.getParameter("staffAge");
@@ -44,5 +45,5 @@ if (login_status == null || login_status.equals("anonymous")) {
               con.close();
            }
         %>
-    </body>
+</body>
 </html>

@@ -35,17 +35,14 @@
 				<tr>
 					<td>
 						<table border="1" cellspacing="0" cellpadding="0"
-							bgcolor="#dddddd" width="360" height="200">
+							bgcolor="#ffffff" width="360" height="200">
 							<tr height="130">
-								<td align="center">输入用户姓名 <input type="text"
-									name="userName" size="20"><br> 输入用户密码 <input
-									type="password" name="password" size="22"><br> <input
-									type="submit" value="登 录" size="12" />&nbsp;&nbsp;&nbsp; <input
-									type="reset" value="清  除" size="12" />
+								<td align="center">用户姓名 <input type="text" name="userName"
+									size="22"><br> <br> <br>用户密码 <input
+									type="password" name="password" size="22"><br> <br>
+									<br> <input type="submit" value="登 录" size="12" />&nbsp;&nbsp;&nbsp;
+									<input type="reset" value="清  除" size="12" />
 								</td>
-							</tr>
-							<tr height="30">
-								<td bgcolor="#95BDFF">&nbsp;&nbsp;</td>
 							</tr>
 						</table>
 					</td>
