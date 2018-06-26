@@ -15,52 +15,53 @@ import javax.servlet.http.HttpSession;
 import loginRegister.LoginBean;
 
 public class LookDateServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    	request.setCharacterEncoding("UTF-8");
-    	response.setContentType("text/html;charset=UTF-8");
-    	response.setCharacterEncoding("UTF-8");
-        try{
-             Connection con=null;
-             Statement stmt=null;
-             ResultSet rs=null;
-             Class.forName("com.mysql.jdbc.Driver");
-             String url="jdbc:mysql://192.168.14.5:3306/person";
-             con=DriverManager.getConnection(url,"root","kali");
-             stmt=con.createStatement();
-             String userName="";
-             HttpSession session=request.getSession();
-             ArrayList login=(ArrayList)session.getAttribute("login");
-             if(login==null||login.size()==0){
-                   response.sendRedirect("http://localhost:8080/PIMS/login.jsp");
-             }else{
-                   for(int i=login.size()-1;i>=0;i--){
-                       LoginBean nn=(LoginBean)login.get(i);
-                       userName=nn.getUserName();
-                   }
-             }
-             String sql="select * from date where userName='"+userName+"'";
-             rs=stmt.executeQuery(sql);
-             ArrayList datelist=null;
-             datelist=new ArrayList();
-             while(rs.next()){
-                  LookDateBean dd=new LookDateBean();
-                  dd.setDate(rs.getString("date"));
-                  dd.setThing(rs.getString("thing"));
-                  datelist.add(dd);
-                  session.setAttribute("datelist", datelist);
-             }
-             rs.close();
-             stmt.close();
-             con.close();
-             response.sendRedirect("http://localhost:8080/PIMS/dateManager/lookDate.jsp");
-            }catch(Exception e){
-               e.printStackTrace();
-            }
-    } 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        doGet(request, response);
-    }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			Connection con = null;
+			Statement stmt = null;
+			ResultSet rs = null;
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://192.168.14.5:3306/person?characterEncoding=utf8&useSSL=false";
+			con = DriverManager.getConnection(url, "root", "kali");
+			stmt = con.createStatement();
+			String userName = "";
+			HttpSession session = request.getSession();
+			ArrayList login = (ArrayList) session.getAttribute("login");
+			if (login == null || login.size() == 0) {
+				response.sendRedirect("http://localhost:8080/PIMS/login.jsp");
+			} else {
+				for (int i = login.size() - 1; i >= 0; i--) {
+					LoginBean nn = (LoginBean) login.get(i);
+					userName = nn.getUserName();
+				}
+			}
+			String sql = "select * from date where userName='" + userName + "'";
+			rs = stmt.executeQuery(sql);
+			ArrayList datelist = null;
+			datelist = new ArrayList();
+			while (rs.next()) {
+				LookDateBean dd = new LookDateBean();
+				dd.setDate(rs.getString("date"));
+				dd.setThing(rs.getString("thing"));
+				datelist.add(dd);
+				session.setAttribute("datelist", datelist);
+			}
+			rs.close();
+			stmt.close();
+			con.close();
+			response.sendRedirect("http://localhost:8080/PIMS/dateManager/lookDate.jsp");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 
 }

@@ -16,115 +16,122 @@ import javax.swing.JOptionPane;
 import loginRegister.LoginBean;
 
 public class AddDateServlet extends HttpServlet {
-     public void wrong1(){
-        String msg="请把日期填写完整，添加失败！";
-        int type=JOptionPane.YES_NO_CANCEL_OPTION;
-        String title="信息提示";
-        JOptionPane.showMessageDialog(null, msg, title, type);
-    }
-    public void wrong2(){
-        String msg="请确认日期填写正确，添加失败！";
-        int type=JOptionPane.YES_NO_CANCEL_OPTION;
-        String title="信息提示";
-        JOptionPane.showMessageDialog(null, msg, title, type);
-    }
-    public void wrong3(){
-        String msg="请填写日程内容，添加失败！";
-        int type=JOptionPane.YES_NO_CANCEL_OPTION;
-        String title="信息提示";
-        JOptionPane.showMessageDialog(null, msg, title, type);
-    }
-    public void wrong4(){
-        String msg="该日程已有计划，添加失败！";
-        int type=JOptionPane.YES_NO_CANCEL_OPTION;
-        String title="信息提示";
-        JOptionPane.showMessageDialog(null, msg, title, type);
-    }
-    public void right(){
-        String msg="填写信息合格，添加成功！";
-        int type=JOptionPane.YES_NO_CANCEL_OPTION;
-        String title="信息提示";
-        JOptionPane.showMessageDialog(null, msg, title, type);
-    }
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    	request.setCharacterEncoding("UTF-8");
-    	response.setContentType("text/html;charset=UTF-8");
-    	response.setCharacterEncoding("UTF-8");
-        String year=request.getParameter("year");
-        String month=request.getParameter("month");
-        String day=request.getParameter("day");
-        String thing=request.getParameter("thing");
-        String date="20"+year+"-"+month+"-"+year;
-        if(year.length()==0||month.length()==0||day.length()==0){
-            wrong1();
-            response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
-        }else if(year.length()!=2||Integer.parseInt(year)<11||Integer.parseInt(month)<1||Integer.parseInt(month)>12||Integer.parseInt(day)<1||Integer.parseInt(day)>31){
-            wrong2();
-            response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
-        }else if(thing.length()==0){
-            wrong3();
-            response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
-        }else{
-            try{
-                Connection con=null;
-                Statement stmt=null;
-                ResultSet rs=null;
-                Class.forName("com.mysql.jdbc.Driver");
-                String url="jdbc:mysql://192.168.14.5:3306/person";
-                con=DriverManager.getConnection(url,"root","kali");
-                stmt=con.createStatement();
-                String userName="";
-                HttpSession session=request.getSession();
-                ArrayList login=(ArrayList)session.getAttribute("login");
-                if(login==null||login.size()==0){
-                       response.sendRedirect("http://localhost:8080/PIMS/login.jsp");
-                }else{
-                    for(int i=login.size()-1;i>=0;i--){
-                        LoginBean nn=(LoginBean)login.get(i);
-                        userName=nn.getUserName();
-                    }
-                }
-                String sql1="select * from date where date='"+date+"'and userName='"+userName+"'";
-                rs=stmt.executeQuery(sql1);
-                rs.last();
-                int k;
-                k=rs.getRow();
-                rs.beforeFirst();
-                if(k>0){
-                    wrong4();
-                    response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
-                }else{
-                    String sql2="insert into date"+"(userName,date,thing)"+"values("+"'"+userName+"'"+","+"'"+date+"'"+","+"'"+thing+"'"+")";
-                    stmt.executeUpdate(sql2);
-                    String sql3="select * from date where userName='"+userName+"'";
-                    rs=stmt.executeQuery(sql3);
-                    ArrayList datelist=null;
-                    datelist=new ArrayList();
-                    while(rs.next()){
-                        LookDateBean dd=new LookDateBean();
-                        dd.setDate(rs.getString("date"));
-                        dd.setThing(rs.getString("thing"));
-                        datelist.add(dd);
-                        session.setAttribute("datelist", datelist);
-                     }
-                }
-                rs.close();
-                stmt.close();
-                con.close();
-                right();
-                response.sendRedirect("http://localhost:8080/PIMS/dateManager/lookDate.jsp");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
+	public void wrong1() {
+		String msg = "请把日期填写完整，添加失败！";
+		int type = JOptionPane.YES_NO_CANCEL_OPTION;
+		String title = "信息提示";
+		JOptionPane.showMessageDialog(null, msg, title, type);
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        doGet(request, response);
-    }
+	public void wrong2() {
+		String msg = "请确认日期填写正确，添加失败！";
+		int type = JOptionPane.YES_NO_CANCEL_OPTION;
+		String title = "信息提示";
+		JOptionPane.showMessageDialog(null, msg, title, type);
+	}
+
+	public void wrong3() {
+		String msg = "请填写日程内容，添加失败！";
+		int type = JOptionPane.YES_NO_CANCEL_OPTION;
+		String title = "信息提示";
+		JOptionPane.showMessageDialog(null, msg, title, type);
+	}
+
+	public void wrong4() {
+		String msg = "该日程已有计划，添加失败！";
+		int type = JOptionPane.YES_NO_CANCEL_OPTION;
+		String title = "信息提示";
+		JOptionPane.showMessageDialog(null, msg, title, type);
+	}
+
+	public void right() {
+		String msg = "填写信息合格，添加成功！";
+		int type = JOptionPane.YES_NO_CANCEL_OPTION;
+		String title = "信息提示";
+		JOptionPane.showMessageDialog(null, msg, title, type);
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		String year = request.getParameter("year");
+		String month = request.getParameter("month");
+		String day = request.getParameter("day");
+		String thing = request.getParameter("thing");
+		String date = "20" + year + "-" + month + "-" + year;
+		if (year.length() == 0 || month.length() == 0 || day.length() == 0) {
+			wrong1();
+			response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
+		} else if (year.length() != 2 || Integer.parseInt(year) < 11 || Integer.parseInt(month) < 1
+				|| Integer.parseInt(month) > 12 || Integer.parseInt(day) < 1 || Integer.parseInt(day) > 31) {
+			wrong2();
+			response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
+		} else if (thing.length() == 0) {
+			wrong3();
+			response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
+		} else {
+			try {
+				Connection con = null;
+				Statement stmt = null;
+				ResultSet rs = null;
+				Class.forName("com.mysql.jdbc.Driver");
+				String url = "jdbc:mysql://192.168.14.5:3306/person?characterEncoding=utf8&useSSL=false";
+				con = DriverManager.getConnection(url, "root", "kali");
+				stmt = con.createStatement();
+				String userName = "";
+				HttpSession session = request.getSession();
+				ArrayList login = (ArrayList) session.getAttribute("login");
+				if (login == null || login.size() == 0) {
+					response.sendRedirect("http://localhost:8080/PIMS/login.jsp");
+				} else {
+					for (int i = login.size() - 1; i >= 0; i--) {
+						LoginBean nn = (LoginBean) login.get(i);
+						userName = nn.getUserName();
+					}
+				}
+				String sql1 = "select * from date where date='" + date + "'and userName='" + userName + "'";
+				rs = stmt.executeQuery(sql1);
+				rs.last();
+				int k;
+				k = rs.getRow();
+				rs.beforeFirst();
+				if (k > 0) {
+					wrong4();
+					response.sendRedirect("http://localhost:8080/PIMS/dateManager/addDate.jsp");
+				} else {
+					String sql2 = "insert into date" + "(userName,date,thing)" + "values(" + "'" + userName + "'" + ","
+							+ "'" + date + "'" + "," + "'" + thing + "'" + ")";
+					stmt.executeUpdate(sql2);
+					String sql3 = "select * from date where userName='" + userName + "'";
+					rs = stmt.executeQuery(sql3);
+					ArrayList datelist = null;
+					datelist = new ArrayList();
+					while (rs.next()) {
+						LookDateBean dd = new LookDateBean();
+						dd.setDate(rs.getString("date"));
+						dd.setThing(rs.getString("thing"));
+						datelist.add(dd);
+						session.setAttribute("datelist", datelist);
+					}
+				}
+				rs.close();
+				stmt.close();
+				con.close();
+				right();
+				response.sendRedirect("http://localhost:8080/PIMS/dateManager/lookDate.jsp");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 
 }

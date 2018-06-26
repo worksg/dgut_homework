@@ -6,24 +6,29 @@
 package dateManager;
 
 public class LookDateBean {
-    private String date;
-    private String thing;
-    public LookDateBean(){
-    }
-    public String getDate() {
-        return date;
-    }
-    public void setDate(String date) {
-        this.date = date;
-    }
-    public String getThing() {
-        return thing;
-    }
+	private String date;
+	private String thing;
 
-    /**
-     * @param thing the thing to set
-     */
-    public void setThing(String thing) {
-        this.thing = thing;
-    }
+	public LookDateBean() {
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getThing() {
+		return thing;
+	}
+
+	/**
+	 * @param thing
+	 *            the thing to set
+	 */
+	public void setThing(String thing) {
+		this.thing = thing;
+	}
 }
